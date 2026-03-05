@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sentinel AI | Multi-Language Ingestion</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --bg: #02040a;
+            --accent: #3fb1ff;
+            --panel: #0d1117;
+            --border: #30363d;
+            --text: #c9d1d9;
+        }
+
+        body {
+            background: var(--bg); color: var(--text);
+            font-family: 'Inter', sans-serif; display: flex; flex-direction: column;
+            align-items: center; padding: 50px 20px;
+        }
+
+        /* --- Language Badge --- */
+        .lang-badge {
+            background: rgba(63, 177, 255, 0.1); color: var(--accent);
+            padding: 4px 12px; border-radius: 4px; font-size: 10px;
+            font-weight: 800; border: 1px solid var(--accent);
+            margin-bottom: 20px; text-transform: uppercase;
+        }
+
+        .procedure-line {
+            display: flex; gap: 30px; margin-bottom: 40px; font-size: 11px;
+            text-transform: uppercase; letter-spacing: 2px; color: #8b949e;
+        }
+        .active-step { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
+
+        /* --- Expanding Editor --- */
+        .editor-box {
+            width: 100%; max-width: 900px; background: var(--panel);
+            border: 1px solid var(--border); border-radius: 12px; padding: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        textarea {
+            width: 100%; min-height: 120px; background: transparent;
+            border: none; outline: none; color: var(--accent);
+            font-family: 'JetBrains Mono', monospace; font-size: 14px;
+            line-height: 1.6; resize: none;
+        }
+
+        .btn-glow {
+            margin-top: 30px; background: transparent; color: var(--accent);
+            border: 1px solid var(--accent); padding: 15px 50px;
+            border-radius: 30px; cursor: pointer; font-weight: 700;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .btn-glow:hover { background: var(--accent); color: var(--bg); }
+    </style>
+</head>
+<body>
+
+    <div class="lang-badge" id="langDetect">Polyglot Mode Active</div>
+
+    <div class="procedure-line">
+        <span class="active-step">01 Ingestion</span>
+        <span>02 Polyglot-Parse</span>
+        <span>03 Audit-Report</span>
+    </div>
+
+    <div class="editor-box">
+        <textarea id="polyCode" 
+                  placeholder="// Paste Java, C++, JS, Python, or Ruby code..." 
+                  oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px'"></textarea>
+    </div>
+
+    <button class="btn-glow" onclick="startPolyAudit()">
+        Analyze Architecture <i data-lucide="zap" size="16"></i>
+    </button>
+
+    <script>
+        lucide.createIcons();
+        function startPolyAudit() {
+            const code = document.getElementById('polyCode').value;
+            if(!code) return;
+            localStorage.setItem('pending_code', code);
+            window.location.href = '/audit';
+        }
+    </script>
+    <script src="main.js"></script>
+</body>
+</html>
