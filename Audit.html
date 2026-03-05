@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sentinel AI | Visual Logic Audit</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg: #020408;
+            --surface: #0d1117;
+            --accent: #3fb1ff;
+            --danger: #f85149;
+            --success: #3fb950;
+            --border: #30363d;
+            --text-dim: #8b949e;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            background: var(--bg); color: #c9d1d9; 
+            font-family: 'Inter', -apple-system, sans-serif;
+            padding: 40px 20px;
+        }
+
+        .report-wrapper { max-width: 1100px; margin: 0 auto; }
+
+        /* --- Header Card --- */
+        .card-header { 
+            background: var(--surface); border: 1px solid var(--border); 
+            border-radius: 12px; padding: 25px; margin-bottom: 20px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        /* --- Dashboard Grid --- */
+        .dashboard-grid { 
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; 
+        }
+
+        .card { 
+            background: var(--surface); border: 1px solid var(--border); 
+            border-radius: 12px; padding: 25px; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; min-height: 300px;
+            text-align: center;
+        }
+
+        .full-width { grid-column: span 3; min-height: auto; }
+
+        .label { 
+            font-size: 10px; font-weight: 800; color: var(--text-dim); 
+            text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; 
+        }
+        
+        /* --- Chart Positioning --- */
+        .chart-container { position: relative; height: 200px; width: 200px; }
+        .center-label {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 28px; font-weight: 800; font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* --- Vulnerability Tags --- */
+        .pattern-grid { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 10px; }
+        .v-badge { 
+            padding: 8px 16px; border-radius: 6px; font-size: 11px; font-weight: 700;
+            border: 1px solid var(--border); background: rgba(255,255,255,0.03);
+            display: flex; align-items: center; gap: 6px;
+        }
+        .v-badge.detected { 
+            color: var(--danger); border-color: rgba(248, 81, 73, 0.4); 
+            background: rgba(248, 81, 73, 0.1); 
+        }
+
+        .btn-home {
+            margin-top: 40px; display: inline-flex; align-items: center; gap: 10px;
+            color: var(--text-dim); text-decoration: none; font-size: 13px;
+            padding: 10px 20px; border: 1px solid var(--border); border-radius: 6px;
+        }
+        .btn-home:hover { border-color: var(--accent); color: var(--accent); }
+    </style>
+</head>
+<body>
+
+<div class="report-wrapper">
+    <div class="card-header">
+        <div>
+            <h1 style="font-size: 24px; color: var(--accent);">Logic Integrity Report</h1>
+            <p style="color: var(--text-dim); font-size: 12px;">Sentinel AI Polyglot Engine v4.0</p>
+        </div>
+        <div id="timestamp" style="font-size: 12px; color: var(--text-dim); font-family: monospace;"></div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="card">
+            <span class="label">Complexity Analysis</span>
+            <div class="chart-container">
+                <canvas id="complexityChart"></canvas>
+                <div class="center-label" id="gradeLabel">--</div>
+            </div>
+            <p style="font-size: 11px; color: var(--text-dim); margin-top: 15px;">Lizard Cyclomatic Index</p>
+        </div>
+
+        <div class="card">
+            <span class="label">Threat Probability</span>
+            <div class="chart-container">
+                <canvas id="riskChart"></canvas>
+                <div class="center-label" id="riskLabel">0%</div>
+            </div>
+            <p style="font-size: 11px; color: var(--text-dim); margin-top: 15px;">Heuristic Vulnerability Score</p>
+        </div>
+
+        <div class="card">
+            <span class="label">Detection Matrix</span>
+            <div id="patterns" class="pattern-grid">
+                <span class="v-badge">Initializing Neural Filters...</span>
+            </div>
+        </div>
+    </div>
+
+    <center>
+        <a href="/" class="btn-home"><i data-lucide="arrow-left" size="16"></i> New Analysis</a>
+    </center>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>
