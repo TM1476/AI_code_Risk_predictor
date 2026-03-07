@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sentinel AI | Audit History</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --bg: #02040a; --panel: #0d1117; --accent: #3fb1ff;
+            --border: #30363d; --text: #c9d1d9;
+        }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; padding: 40px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid var(--border); font-size: 14px; }
+        th { background: rgba(63, 177, 255, 0.05); color: var(--accent); text-transform: uppercase; font-size: 11px; letter-spacing: 1px; }
+        .grade-pill { padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 12px; }
+        .grade-A { background: rgba(63, 185, 80, 0.1); color: #3fb950; }
+        .grade-B { background: rgba(210, 153, 34, 0.1); color: #d29922; }
+        .grade-C { background: rgba(248, 81, 73, 0.1); color: #f85149; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="margin-bottom: 30px; display: flex; align-items: center; gap: 10px;">
+            <i data-lucide="history"></i> Audit History
+        </h1>
+        <table id="historyTable">
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Complexity</th>
+                    <th>Risk Score</th>
+                    <th>Vulnerabilities</th>
+                </tr>
+            </thead>
+            <tbody id="historyBody">
+                </tbody>
+        </table>
+        <br>
+        <a href="/" style="color: var(--accent); text-decoration: none; font-size: 14px;">← Back to Analyzer</a>
+    </div>
+
+    <script>
+        async function loadHistory() {
+            const response = await fetch('/api/history');
+            const data = await response.json();
+            const body = document.getElementById('historyBody');
+            
+            body.innerHTML = data.map(row => `
+                <tr>
+                    <td>${new Date(row.timestamp).toLocaleString()}</td>
+                    <td><span class="grade-pill grade-${row.complexity_grade}">${row.complexity_grade}</span></td>
+                    <td>${(row.risk_score * 100).toFixed(0)}%</td>
+                    <td style="color: #8b949e; font-family: monospace; font-size: 12px;">${row.vulnerabilities || 'None'}</td>
+                </tr>
+            `).join('');
+            lucide.createIcons();
+        }
+        loadHistory();
+    </script>
+</body>
+</html>
