@@ -127,3 +127,21 @@ function renderAuditCharts(data) {
         document.getElementById('riskLabel').innerText = riskPct.toFixed(0) + '%';
     }
 }
+
+function exportAuditJSON() {
+    // Pull the data from localStorage (where startPolyAudit saved it)
+    const reportData = JSON.parse(localStorage.getItem('lastAudit'));
+    
+    if (!reportData) {
+        alert("No audit data found to export.");
+        return;
+    }
+
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(reportData, null, 4));
+    const downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", "sentinel_audit_report.json");
+    document.body.appendChild(downloadAnchorNode);
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+}
