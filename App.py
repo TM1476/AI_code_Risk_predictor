@@ -55,8 +55,10 @@ def get_history():
 def run_audit():
     data = request.json
     code = data.get('code', '')
-    analysis = lizard.analyze_file.analyze_source_code("input.txt", code)
+    if not code:
+        return jsonify({"status": "error", "message": "No code"}), 400
     
+    analysis = lizard.analyze_file.analyze_source_code("input.txt", code)
     avg_complexity = sum(f.cyclomatic_complexity for f in analysis.function_list) / len(analysis.function_list) if analysis.function_list else 1
     grade = "A" if avg_complexity <= 5 else "B" if avg_complexity <= 12 else "C"
 
